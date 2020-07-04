@@ -6,7 +6,7 @@ FROM golang:alpine AS builder
 
 RUN apk update && apk add --no-cache git
 
-WORKDIR $GOPATH/src/github.com/Cheunn-Panaa/misterv-discord/
+WORKDIR $GOPATH
 COPY . .
 
 # Fetch dependencies.
