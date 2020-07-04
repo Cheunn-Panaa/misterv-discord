@@ -1,0 +1,21 @@
+version: "3.5"
+services:
+  bot:
+    build: ./
+    environment:
+      - CONFIG_FILE=/run/secrets/config
+    secrets:
+      - config
+    restart: always
+  db:
+    container_name: dockerdev-db
+    image: postgres:12.2-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: goland
+      POSTGRES_PASSWORD: goland
+      POSTGRES_DB: goland
+secrets:
+  config:
+    file: ./config.json

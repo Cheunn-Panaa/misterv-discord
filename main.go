@@ -1,39 +1,39 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
+	"os"
 )
 
 var (
-	conf *Config
+	config *Config
+	botId  string
 )
 
 func init() {
-	config = LoadConfig("config.json")
+	configFile := os.Getenv("CONFIG_FILE")
+	if configFile == "" {
+		panic(errors.New("CONFIG_FILE is not defined"))
+	}
+	config = LoadConfig(configFile)
 }
 
 func main() {
 
-	discord, err := discordgo.New(conf.DISCORD_TOKEN)
+	discord, err := discordgo.New(config.BotToken)
 	if err != nil {
 		fmt.Println("Error creating discord session,", err)
 		return
 	}
 
-	if conf.UseSharding {
-		discord.ShardID = conf.ShardId
-		discord.ShardCount = conf.ShardCount
+	if config.UseSharding {
+		discord.ShardID = config.ShardId
+		discord.ShardCount = config.ShardCount
 	}
-	usr, err := discord.User("@me")
-	if err != nil {
-		fmt.Println("Error obtaining account details,", err)
-		return
-	}
-	botId = usr.ID
-	discord.AddHandler(commandHandler)
 	discord.AddHandler(func(discord *discordgo.Session, ready *discordgo.Ready) {
-		discord.UpdateStatus(0, conf.DefaultStatus)
+		discord.UpdateStatus(0, config.DefaultStatus)
 		guilds := discord.State.Guilds
 		fmt.Println("Ready with", len(guilds), "guilds.")
 	})
