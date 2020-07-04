@@ -1,0 +1,10 @@
+{
+  "bot_token": "TOKEN",
+  "bot_name": "NAME",
+  "bot_prefix": "!mv",
+  "owner_id": "owner_id",
+  "use_sharding": false,
+  "shard_id": 0,
+  "shard_count": 0,
+  "default_status": "ONLINE"
+}
