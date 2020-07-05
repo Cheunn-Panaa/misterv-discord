@@ -6,7 +6,7 @@ import (
 )
 
 type Connection struct {
-	voiceConnection *discordgo.VoiceConnection
+	VoiceConnection *discordgo.VoiceConnection
 	send            chan []int16
 	lock            sync.Mutex
 	sendpcm         bool
@@ -16,9 +16,9 @@ type Connection struct {
 
 func NewConnection(voiceConnection *discordgo.VoiceConnection) *Connection {
 	connection := new(Connection)
-	connection.voiceConnection = voiceConnection
+	connection.VoiceConnection = voiceConnection
 	return connection
 }
 func (connection Connection) Disconnect() {
-	connection.voiceConnection.Disconnect()
+	connection.VoiceConnection.Disconnect()
 }

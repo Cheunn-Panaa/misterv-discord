@@ -14,9 +14,10 @@ import (
 )
 
 var (
+	sessions   *domains.SessionManager
 	cmdHandler *domains.CommandHandler
 	config     *domains.Config
-	botId      string
+	//botID      string
 )
 
 func init() {
@@ -29,6 +30,8 @@ func init() {
 
 func main() {
 	cmdHandler = domains.NewCommandHandler()
+	sessions = domains.NewSessionManager()
+	// Load all commands into the bot
 	registerAllCommands()
 
 	// Create a discord session
@@ -94,7 +97,7 @@ func commandHandler(discord *discordgo.Session, message *discordgo.MessageCreate
 			fmt.Println("Error getting guild,", err)
 			return
 		}
-		ctx := domains.NewContext(discord, guild, channel, user, message, config, cmdHandler)
+		ctx := domains.NewContext(discord, guild, channel, user, message, config, cmdHandler, sessions)
 		ctx.Args = args[1:]
 		c := *command
 		c(*ctx)
@@ -103,6 +106,19 @@ func commandHandler(discord *discordgo.Session, message *discordgo.MessageCreate
 }
 
 func registerAllCommands() {
+	log.Info("Registering all commands")
 	cmdHandler.Register("meme", commands.MemeCommand, "LA FETE")
-	cmdHandler.RegisterMemeCmd("tuveuxquoi", commands.SongCommand, "Tu veux quoi toi, mais toi tu veux quoi ?", "https://www.youtube.com/watch?v=D530X1eRJAk")
+
+	log.Debug("Loading Memes")
+	memes := domains.LoadMemes(os.Getenv("MEME_FILE"))
+	log.WithFields(log.Fields{
+		"memes": memes,
+	}).Debug("Memes loaded")
+	for index, meme := range *memes {
+		cmdHandler.RegisterMemeCmd(meme.Command, commands.MemeCommand, meme.Help, meme.YoutubeURL, meme.FileName)
+		log.WithFields(log.Fields{
+			"index": index,
+			"memes": meme.Command,
+		}).Debug("Registering meme command")
+	}
 }

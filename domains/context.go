@@ -5,6 +5,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
+// Context struct
 type Context struct {
 	Discord      *discordgo.Session
 	Guild        *discordgo.Guild
@@ -17,10 +18,12 @@ type Context struct {
 	// dependency injection?
 	Conf       *Config
 	CmdHandler *CommandHandler
+	Sessions   *SessionManager
 }
 
+// NewContext constructor
 func NewContext(discord *discordgo.Session, guild *discordgo.Guild, textChannel *discordgo.Channel,
-	user *discordgo.User, message *discordgo.MessageCreate, conf *Config, cmdHandler *CommandHandler) *Context {
+	user *discordgo.User, message *discordgo.MessageCreate, conf *Config, cmdHandler *CommandHandler, sessions *SessionManager) *Context {
 	ctx := new(Context)
 	ctx.Discord = discord
 	ctx.Guild = guild
@@ -29,9 +32,11 @@ func NewContext(discord *discordgo.Session, guild *discordgo.Guild, textChannel 
 	ctx.Message = message
 	ctx.Conf = conf
 	ctx.CmdHandler = cmdHandler
+	ctx.Sessions = sessions
 	return ctx
 }
 
+// Reply replies a basic message in the textchannel
 func (ctx Context) Reply(content string) *discordgo.Message {
 	msg, err := ctx.Discord.ChannelMessageSend(ctx.TextChannel.ID, content)
 	if err != nil {
@@ -41,6 +46,7 @@ func (ctx Context) Reply(content string) *discordgo.Message {
 	return msg
 }
 
+// GetVoiceChannel returns calling user's current voicechannel
 func (ctx *Context) GetVoiceChannel() (*discordgo.Channel, error) {
 	if ctx.VoiceChannel != nil {
 		return ctx.VoiceChannel, nil
