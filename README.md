@@ -1,6 +1,6 @@
 # misterv-discord
 
-[![Go report](http://goreportcard.com/badge/bwmarrin/discordgo)](http://goreportcard.com/report/bwmarrin/discordgo) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/Cheunn-Panaa/misterv-discord)](https://goreportcard.com/report/github.com/Cheunn-Panaa/misterv-discord)
 
 
 ### TODO
