@@ -1,0 +1,12 @@
+[
+  {
+    "command": "tuveuxquoitoi",
+    "youtubeUrl": "https://www.youtube.com/watch?v=D530X1eRJAk",
+    "fileName": null,
+    "help": "Tu veux quoi toi mais toi tu veux quoi toi ?"
+  }
+]
+Command    string `json:"command"`
+YoutubeURL string `json:"youtubeUrl"`
+FileName   string `json:"fileName"`
+Help       string `json:"help"`
