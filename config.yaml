@@ -1,0 +1,19 @@
+bot:
+  token: Bot Njc4OTM4NTc2MjIxODk2NzQz.XwCViw.8S8-AO8qEP5BVpoCTW94zUeiWlg
+  name: MisterV-Bot
+  prefix: "!mv"
+  playing: S'astique le bambou lo
+  status: S'astique le bambou lo
+  help: Help message
+discord:
+  appliationID: 1234567
+  logChannelId: 1234567
+  sharding:
+    id: 0
+    count: 0
+sound:
+  directory: /
+  cacheSize: 100
+  queueSize: 6
+env: development
+

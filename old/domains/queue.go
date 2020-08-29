@@ -1,10 +1,10 @@
 package domains
+
 type SongQueue struct {
 	list    []Song
 	current *Song
 	Running bool
 }
-
 
 func (queue SongQueue) Get() []Song {
 	return queue.list
@@ -33,6 +33,21 @@ func (queue *SongQueue) Clear() {
 	queue.list = make([]Song, 0)
 	queue.Running = false
 	queue.current = nil
+}
+
+func (queue *SongQueue) Start(sess *Session, callback func(string)) {
+	queue.Running = true
+	for queue.HasNext() && queue.Running {
+		song := queue.Next()
+		callback("Now playing `" + song.Title + "`.")
+
+		//TODO: PLay song
+	}
+	if !queue.Running {
+		callback("Stopped playing.")
+	} else {
+		callback("Finished queue.")
+	}
 }
 
 func (queue *SongQueue) Current() *Song {

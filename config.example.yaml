@@ -1,0 +1,19 @@
+bot:
+  token: BOT TOKEN
+  name: NAME
+  prefix: PREFIX
+  playing: IM PLAYING
+  status: THIS IS MY STATUS
+  help: HELP MESSAGE
+discord:
+  appliationID: 1234567
+  logChannelId: 1234567
+  sharding:
+    id: 0
+    count: 0
+sound:
+  directory: /
+  cacheSize: 100
+  queueSize: 6
+env: development
+

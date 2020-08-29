@@ -1,29 +1,38 @@
 package domains
 
 import (
-	"encoding/json"
-	"fmt"
+	"gopkg.in/yaml.v3"
 	"io/ioutil"
 )
-
+type BotConf struct {
+	Token	string `yaml:"token"`
+	Name	string `yaml:"name"`
+	Prefix	string `yaml:"prefix"`
+	Playing string `yaml:"playing"`
+	Status 	string `yaml:"status"`
+	Help    string `yaml:"help"`
+}
+// Config is configuration of Bot
 type Config struct {
-	Prefix        string `json:"bot_prefix"`
-	BotName       string `json:"bot_name"`
-	BotToken      string `json:"bot_token"`
-	OwnerId       string `json:"owner_id"`
-	UseSharding   bool   `json:"use_sharding"`
-	ShardId       int    `json:"shard_id"`
-	ShardCount    int    `json:"shard_count"`
-	DefaultStatus string `json:"default_status"`
+	Bot BotConf
+	Discord struct {
+		ApplicationId	int `yaml:"appliationID"`
+		LogChannelId	int `yaml:"logChannelId"`
+		Sharding struct {
+			Id	int `yaml:"id"`
+		}
+	}
+	Sound struct {
+		SoundDir       string `yaml:"directory"`
+		SoundCacheSize int    `yaml:"soundCacheSize"`
+		MaxQueueSize   int    `yaml:"maxQueueSize"`
+	}
+	Env            string `yaml:"env"`
 }
 
-func LoadConfig(filename string) *Config {
-	body, err := ioutil.ReadFile(filename)
-	if err != nil {
-		fmt.Println("error loading config,", err)
-		return nil
-	}
-	var conf Config
-	json.Unmarshal(body, &conf)
-	return &conf
+// NewConfig is constructor
+func NewConfig(filename string) (config *Config, err error) {
+	b, err := ioutil.ReadFile(filename)
+	err = yaml.Unmarshal(b, &config)
+	return
 }
